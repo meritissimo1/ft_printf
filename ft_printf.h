@@ -6,7 +6,7 @@
 /*   By: marcrodr < marcrodr@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 16:42:31 by marcrodr          #+#    #+#             */
-/*   Updated: 2021/08/10 19:34:31 by marcrodr         ###   ########.fr       */
+/*   Updated: 2021/08/12 16:48:52 by marcrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 int ft_printf(const char *str, ...);
 
