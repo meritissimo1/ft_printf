@@ -6,39 +6,36 @@
 /*   By: marcrodr < marcrodr@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/03 20:03:29 by marcrodr          #+#    #+#             */
-/*   Updated: 2021/09/01 17:52:39 by marcrodr         ###   ########.fr       */
+/*   Updated: 2021/09/10 13:21:15 by marcrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int a_pensar_percent(const char *str, va_list args)
+static int convert_percent(char *str, va_list args, int *count)
 {
-	int a;
-	
-	if(*str == 'd' || *str == 'i')
-		ft_putnbr_fd (va_arg(args, int), 1);
+	int i;
+
+	i = *count;
+	if(*str == '%')
+		i += write(1, "%", 1);
+	if (*str == 'c')
+		i += ft_print_c(str, va_arg(args, int));
 	else if (*str == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);
-	else if (*str == 'c')
-		ft_putchar_fd(va_arg(args, int), 1);
-	else if (*str == 'p')
-		
-	
-		
-	
-		
-
-return(0);
+		i += ft_print_s(str, va_arg(args, char *));
+	else if (*str == 'd' || *str == 'i' || *str == 'u')
+		i += ft_print_d(str, va_arg(args, int));
+	else if (*str == 'p' || *str == 'x' || *str == 'X')
+		i += ft_print_x(str, va_arg(args, unsigned long int));
+	return(i);
 }
-
 
 int ft_printf(const char *str,  ...)
 {
 	va_list args;
-	int i;
+	int count;
 
-	i = 0;
+	count = 0;
 	va_start(args, str);
 
 	while(*str != '\0')
@@ -46,20 +43,14 @@ int ft_printf(const char *str,  ...)
 		if(*str != '%')
 		{
 			write(1, str, 1);
+			count++;			
 		}
 		else
 		{
-			a_pensar_percent(++str, args);			
+			count = convert_percent((char *) ++str, args, &count);			
 		}
 		str++;
 	} 
 	va_end(args);
-return(0);
-}
-
-int main()
-{
-	char test[] = "opa";
-	ft_printf("testando ft_printf %i %c %c\n" , 1, 69, test);
-	return (0);
+return(count);
 }
